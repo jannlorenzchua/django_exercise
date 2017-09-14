@@ -1,23 +1,37 @@
-<!DOCTYPE html>
-<html lang = "en-us">
-<head>
-<meta charset = "utf-8">
-<meta http-equiv = "X-UA-Compatible" content = "IE=edege">
-<meta name = "viewport" content = "width=device-width, initial-scale=1">
-<title> My awesome note app </title>
-</head>
+{% extends 'base.html' %}
 
-<body>
-    <h1> Hello World! </h1>
-    <ul>
-        {% for note in notes %}
-        <li>
-            <div>
-                Title: {{ note.title }} <br>
-                Note: {{ note.note }}
+{% block title %} Notes {% endblock title %}
+
+{% block content %}
+{# Create new note form #}
+<div class = "row">
+    <div class = "col-md-6 col-md-offset-3">
+        <div class = "panel panel-default">
+            <div class = "panel-body">
+                <form class = "inline-form" action = "{% url 'index' %}" method = "post">
+                    {% csrf_token %}
+                    <input type = "text" class = "form-control clear-focus-highlight" id = "txtNewNote" name = "title" placeholder = "Take a note...">
+                    <input class = "btn btn-raised btn-primary btn-sm" type = "submit" value = "Create">
+                </form>
             </div>
-        </li>
+        </div>
+    </div>
+</div>
+
+{# Display Notes #}
+<div class = "row">
+        {% for note in notes %}
+        <div class "col-md-3">
+            <div class = "panel panel-default">
+                <div class = "panel-heading">
+                    <strong> {{ note.title }} </strong>
+                </div>
+                <div class = "panel-body">
+                    {{ note.note }}
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </div>
+</div>
+{% endblock content %}
